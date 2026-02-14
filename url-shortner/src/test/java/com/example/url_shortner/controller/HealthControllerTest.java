@@ -1,0 +1,28 @@
+package com.example.url_shortner.controller;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(HealthController.class)
+class HealthControllerTest {
+    
+    @Autowired
+    private MockMvc mockMvc;
+    
+    @Test
+    void testHealth_Success() throws Exception {
+        mockMvc.perform(get("/health"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
+    }
+    
+    @Test
+    void testHealth_WrongMethod() throws Exception {
+        mockMvc.perform(post("/health"))
+                .andExpect(status().isMethodNotAllowed());
+    }
+}
